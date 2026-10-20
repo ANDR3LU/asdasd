@@ -1,0 +1,44 @@
+name: CI
+
+on:
+  push:
+    branches: [master]
+    paths-ignore:
+      - '**.md'
+      - 'docs/**'
+      - '.aux/**'
+      - '.githooks/**'
+      - '.gitlab/**'
+      - '.gitlab-ci.yml'
+  pull_request:
+    branches: [master]
+    paths-ignore:
+      - '**.md'
+      - 'docs/**'
+      - '.aux/**'
+      - '.githooks/**'
+      - '.gitlab/**'
+      - '.gitlab-ci.yml'
+  workflow_call:
+
+jobs:
+  format:
+    uses: ./.github/workflows/format.yml
+
+  lint:
+    uses: ./.github/workflows/lint.yml
+
+  arch:
+    uses: ./.github/workflows/arch.yml
+
+  test:
+    needs: [format, lint, arch]
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+        java: ['21', '25']
+    uses: ./.github/workflows/test.yml
+    with:
+      os: ${{ matrix.os }}
+      java: ${{ matrix.java }}

@@ -1,0 +1,5 @@
+format:
+  extends: [.java-image, .solo-si-cambia-codigo]
+  stage: check
+  script:
+    - ./scripts/format.sh --check

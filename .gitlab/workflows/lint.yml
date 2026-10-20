@@ -1,0 +1,5 @@
+lint:
+  extends: [.java-image, .solo-si-cambia-codigo]
+  stage: check
+  script:
+    - ./scripts/lint.sh

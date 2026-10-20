@@ -1,0 +1,14 @@
+test:
+  extends: [.java-image, .solo-si-cambia-codigo]
+  image: maven:3-eclipse-temurin-$JAVA
+  parallel:
+    matrix:
+      - JAVA: ["21", "25"]
+  stage: test
+  needs: [format, lint]
+  script:
+    - ./scripts/test.sh
+  artifacts:
+    when: always
+    reports:
+      junit: target/surefire-reports/TEST-*.xml

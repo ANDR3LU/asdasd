@@ -1,0 +1,16 @@
+name: Preparar Java
+description: Instala Temurin con caché de Maven
+
+inputs:
+  java-version:
+    description: Versión de Java
+    default: '21'
+
+runs:
+  using: composite
+  steps:
+    - uses: actions/setup-java@v6
+      with:
+        distribution: temurin
+        java-version: ${{ inputs.java-version }}
+        cache: maven
